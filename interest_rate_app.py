@@ -121,7 +121,10 @@ st.markdown(body=f"#### Average interest rate is: %{avg_interest_rate}")
 if sep_exp:
     avg_expense_rate = round(
         number=(
-            np.float_power(np.prod(a=np.array(object=expense_rate) / 100 + 1), 1 / step_count) - 1
+            np.float_power(
+                np.prod(a=np.array(object=expense_rate) / 100 + 1), 1 / step_count
+            )
+            - 1
         )
         * 100,
         ndigits=2,
@@ -141,6 +144,8 @@ df = pd.DataFrame(
     data=[
         [f"{i:2.2f}%" for i in (values)],
         [f"{i:2.2f}%" for i in (expense_rate)],
+        # [f"{i * 100:2.2f}%" for i in (interest_mat - 1)],
+        # [f"{i * 100:2.2f}%" for i in (expense_mat - 1)],
         [f"-{today_val:,.2f}€"] + [""] * (step_count - 1),
         [f"{i:,.2f}€" for i in (interest_mat * GRR)],
         [f"{i:,.2f}€" for i in (interest_mat * OI)],
@@ -151,6 +156,8 @@ df = pd.DataFrame(
     index=[
         "Interest %",
         "Expence Growth %",
+        # "Compound Interest %",
+        # "Compound Expense %",
         "Outflow",
         "Gross rental revenue",
         "Other Income",
@@ -161,4 +168,3 @@ df = pd.DataFrame(
     columns=[period[0] + str(i + 1) for i in range(step_count)],
 )
 st.table(df)
-
