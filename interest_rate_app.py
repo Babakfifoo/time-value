@@ -93,7 +93,7 @@ expense_mat = np.prod(
 )
 
 with st.expander("Values (€)", expanded=True):
-    value_cols = st.columns([1, 1, 1])
+    value_cols = st.columns([1, 1])
     with value_cols[0]:
         st.markdown("### Income (€)")
         selling_price = st.number_input("Selling Price (Exit value €)", min_value=1)
@@ -104,12 +104,6 @@ with st.expander("Values (€)", expanded=True):
         st.markdown("### Expense (€)")
         today_val = st.number_input("Market Value (Today €)", min_value=1)
         expense_all = st.number_input("Current year expences (All)", min_value=1)
-
-    with value_cols[2]:
-        st.markdown("### Parameters")
-        VAC = st.slider(
-            label="Vacancy Rate (%)", min_value=0.0, max_value=100.0, step=0.5
-        )
 
 
 st.markdown("# Results")
@@ -147,8 +141,6 @@ df = pd.DataFrame(
     data=[
         [f"{i:2.2f}%" for i in (values)],
         [f"{i:2.2f}%" for i in (expense_rate)],
-        [f"{i * 100:2.2f}%" for i in (interest_mat - 1)],
-        [f"{i * 100:2.2f}%" for i in (expense_mat - 1)],
         [f"-{today_val:,.2f}€"] + [""] * (step_count - 1),
         [f"{i:,.2f}€" for i in (interest_mat * GRR)],
         [f"{i:,.2f}€" for i in (interest_mat * OI)],
@@ -159,8 +151,6 @@ df = pd.DataFrame(
     index=[
         "Interest %",
         "Expence Growth %",
-        "Compound Interest %",
-        "Compound Expense %",
         "Outflow",
         "Gross rental revenue",
         "Other Income",
